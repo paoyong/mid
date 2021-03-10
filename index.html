@@ -1,0 +1,60 @@
+<script>
+    document.addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        calculate()
+      }
+    });
+
+    function gcd(a, b) {
+          if (b < 0.0000001) return a; 
+          return gcd(b, Math.floor(a % b)); 
+    };
+
+    function f(a) {
+        var whole = Math.trunc(a)
+        var fraction = a - whole
+        var len = fraction.toString().length - 2;
+
+        var denominator = Math.pow(10, len);
+        var numerator = fraction * denominator;
+
+        var divisor = gcd(numerator, denominator);
+
+        numerator /= divisor;
+        denominator /= divisor;
+
+        var wholer = whole;
+        if (fraction === 0) {
+            return whole
+        }
+
+        return whole + " " + Math.floor(numerator) + '/' + Math.floor(denominator);
+    }
+
+    function calculate() {
+        var w = eval(document.getElementById("wlength").value)
+        var m = eval(document.getElementById("mlength").value.replace(/\s/g, '+'))
+
+        var a = (w - m) / 2
+        var b = a + m
+        var mid = w / 2
+        var rd = "a = " + a + " &nbsp;b = " + b + " &nbsp;m = " + mid
+        var rf = "a = " + f(a) + " &nbsp;b = " + f(b) + " &nbsp;m = " + f(mid)
+        document.getElementById("result-decimal").innerHTML = rd
+        document.getElementById("result-fractional").innerHTML = rf
+    }   
+</script>
+<h1>Middle Calculator</h1>
+  <label for="wlength">Whole Length:</label><br>
+  <input type="string" id="wlength" name="wlength"><br>
+  <label for="mlength">Middle Piece Length:</label><br>
+  <input type="string" id="mlength" name="mlength"><br><br>
+  <button onClick="calculate()">Calculate</button>
+
+<h2>Result</h2>
+<pre><code style="font-size: 18px">          a  m  b        </code>
+<code style="font-size: 18px">|←       →|← . →|←      →|</code></pre><br>
+<code style="font-size: 18px" id="result-decimal"></code><br>
+<code style="font-size: 18px" id="result-fractional"></code>
