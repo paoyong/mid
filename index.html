@@ -1,4 +1,11 @@
 <script>
+    window.onload = function () {
+    if ('ontouchstart' in window) {
+        // all "onclick" should work like "ontouchstart" instead
+    }
+    document.getElementById('calculate').onclick = calculate()
+}
+
     document.addEventListener("keyup", function(event) {
       // Number 13 is the "Enter" key on the keyboard
       if (event.keyCode === 13) {
@@ -51,7 +58,7 @@
   <input type="string" id="wlength" name="wlength"><br>
   <label for="mlength">Middle Piece Length:</label><br>
   <input type="string" id="mlength" name="mlength"><br><br>
-  <button onClick="calculate()">Calculate</button>
+  <button id="calculate" onClick="calculate()">Calculate</button>
 
 <h2>Result</h2>
 <pre><code style="font-size: 18px">          a  m  b        </code>
