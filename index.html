@@ -1,3 +1,9 @@
+<style>
+code {
+    font-size: 18px;
+}
+</style>
+
 <script>
     document.addEventListener("keyup", function(event) {
       // Number 13 is the "Enter" key on the keyboard
@@ -14,9 +20,9 @@
 
     function f(a) {
         var whole = Math.trunc(a)
-        var fraction = a - whole
+        var fraction = (a - whole).toPrecision(3)
+        console.log(fraction)
         var len = fraction.toString().length - 2;
-
         var denominator = Math.pow(10, len);
         var numerator = fraction * denominator;
 
@@ -26,15 +32,19 @@
         denominator /= divisor;
 
         var wholer = whole;
+
         if (fraction === 0) {
             return whole
         }
 
+        if (numerator === 0) {
+            return whole
+        }
         return whole + " " + Math.floor(numerator) + '/' + Math.floor(denominator);
     }
 
     function calculate() {
-        var w = eval(document.getElementById("wlength").value)
+        var w = eval(document.getElementById("wlength").value.replace(/\s/g, '+'))
         var m = eval(document.getElementById("mlength").value.replace(/\s/g, '+'))
 
         var a = (w - m) / 2
@@ -45,6 +55,20 @@
         document.getElementById("result-decimal").innerHTML = rd
         document.getElementById("result-fractional").innerHTML = rf
     }   
+
+    function add(operation) {
+        var a = eval(document.getElementById("alength").value.replace(/\s/g, '+'))
+        var b = eval(document.getElementById("blength").value.replace(/\s/g, '+'))
+
+        if (operation === 'add')
+            var sum = a + b
+        else
+            var sum = a - b
+
+        var rf = f(sum)
+        document.getElementById("result-add-decimal").innerHTML = sum
+        document.getElementById("result-add-fractional").innerHTML = rf
+    }
 </script>
 <h1>Middle Calculator</h1>
   <label for="wlength">Whole Length:</label><br>
@@ -52,9 +76,26 @@
   <label for="mlength">Middle Piece Length:</label><br>
   <input type="string" id="mlength" name="mlength"><br><br>
   <button onClick="calculate()">Calculate</button>
+<pre>
+    <code>          a  m  b        </code>
+    <code>|←       →|← . →|←      →|</code>
+
+    <code>|←      whole length    →|</code>
+    <code>          |←mid→|         </code>
+</pre>
 
 <h2>Result</h2>
-<pre><code style="font-size: 18px">          a  m  b        </code>
-<code style="font-size: 18px">|←       →|← . →|←      →|</code></pre><br>
-<code style="font-size: 18px" id="result-decimal"></code><br>
-<code style="font-size: 18px" id="result-fractional"></code>
+<code id="result-decimal">a = 0 b =  0 m = 0</code><br>
+<code id="result-fractional">a = 0 b =  0 m = 0</code>
+<hr></hr>
+<h1>Adder</h1>
+  <label for="alength">Length A:</label><br>
+  <input type="string" id="alength" name="alength"><br>
+  <label for="blength">Length B:</label><br>
+  <input type="string" id="blength" name="blength"><br><br>
+  <button onClick="add('add')">Add</button>
+  <button onClick="add()">Subtract</button>
+
+<h2>Result</h2>
+<code id="result-add-decimal">0</code><br>
+<code id="result-add-fractional">0</code>
